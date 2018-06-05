@@ -23,7 +23,7 @@ from sklearn.metrics import accuracy_score
 features_train, features_test, labels_train, labels_test = preprocess()
 
 """
-    traning time: 2.081s
+    training time: 2.081s
     prediction time: 0.731s
     accuracy score: 0.9704209382878
 """
