@@ -3,6 +3,9 @@
 import matplotlib.pyplot as plt
 from prep_terrain_data import makeTerrainData
 from class_vis import prettyPicture
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.metrics import accuracy_score
 
 features_train, labels_train, features_test, labels_test = makeTerrainData()
 
@@ -24,21 +27,30 @@ plt.scatter(grade_slow, bumpy_slow, color = "r", label="slow")
 plt.legend()
 plt.xlabel("bumpiness")
 plt.ylabel("grade")
-plt.show()
+#plt.show()
 ################################################################################
 
+# algorithm choices: 0. k nearest neighbors 1. adaboost (boosted decision tree)
+alg_choice = 0
+def getClassifier(choice):
+    if choice == 0:
+        print "k nearest neighbors"
+        return KNeighborsClassifier(n_neighbors=5)
+    elif choice == 1:
+        print "Adaboost"
+        return AdaBoostClassifier()
+    return null
 
-### your code here!  name your classifier object clf if you want the 
-### visualization code (prettyPicture) to show you the decision boundary
-
-
-
-
-
-
-
+def processData(choice):
+    clf = getClassifier(choice)
+    # training
+    clf.fit(features_train, labels_train)
+    # prediction
+    pred = clf.predict(features_test)
+    print "accuracy score:", accuracy_score(labels_test,pred)
+    prettyPicture(clf, features_test, labels_test)
 
 try:
-    prettyPicture(clf, features_test, labels_test)
+    processData(alg_choice)
 except NameError:
     pass
