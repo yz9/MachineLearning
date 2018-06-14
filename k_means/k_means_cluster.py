@@ -14,6 +14,7 @@ import sys
 sys.path.append("../tools/")
 from feature_format import featureFormat, targetFeatureSplit
 from sklearn.cluster import KMeans
+from sklearn.preprocessing import MinMaxScaler
 
 def Draw(pred, features, poi, mark_poi=False, name="image.png", f1_name="feature 1", f2_name="feature 2"):
     """ some plotting code designed to help you visualize your clusters """
@@ -73,3 +74,16 @@ try:
     Draw(pred, finance_features, poi, mark_poi=False, name="clusters.pdf", f1_name=feature_1, f2_name=feature_2)
 except NameError:
     print "no predictions object named pred found, no clusters to plot"
+
+# feature scaling
+salary = [[f1] for f1, f2, f3 in finance_features]
+exercised_stock_options = [[f2] for f1, f2, f3 in finance_features]
+target_salary = 200000
+target_stock_option = 1000000
+
+#print salary
+scaler = MinMaxScaler()
+scaler.fit(salary)
+print "Rescaled salary $200,000:", scaler.transform([[target_salary]])
+scaler.fit(exercised_stock_options)
+print "Rescaled stock $1,000,000:", scaler.transform([[target_stock_option]])
