@@ -30,7 +30,6 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import RandomizedPCA
 from sklearn.svm import SVC
-
 # Display progress logs on stdout
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
 
@@ -81,6 +80,8 @@ X_train_pca = pca.transform(X_train)
 X_test_pca = pca.transform(X_test)
 print "done in %0.3fs" % (time() - t0)
 
+print "explained variance in first pc:", pca.explained_variance_ratio_[0]
+print "explained variance in second pc:", pca.explained_variance_ratio_[1]
 
 ###############################################################################
 # Train a SVM classification model
@@ -97,7 +98,6 @@ clf = clf.fit(X_train_pca, y_train)
 print "done in %0.3fs" % (time() - t0)
 print "Best estimator found by grid search:"
 print clf.best_estimator_
-
 
 ###############################################################################
 # Quantitative evaluation of the model quality on the test set
