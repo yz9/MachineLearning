@@ -37,6 +37,36 @@ clf.fit(features_train, labels_train)
 pred = clf.predict(features_test)
 print "accuracy score:", accuracy_score(labels_test, pred)
 
-predicted_poi = [poi for poi in pred if poi==1]
-print "predicted POTs:", len(predicted_poi)
-print "total number in test set", len(features_test)
+positive_poi = [poi for poi in pred if poi==1]
+positive_poi_size = len(positive_poi)
+test_size = len(features_test)
+print "predicted POTs:", positive_poi_size
+print "total number in test set", test_size
+print "accuracy for negative poi predicted %0.3f" % (float(test_size-positive_poi_size)/test_size)
+
+def calculateTerms(labels_test, pred):
+    true_positive = false_negative = false_positive = true_negative = 0;
+    print "===================="
+    for actual_label, predict in zip(labels_test, pred):
+        if actual_label == 1 and predict == 1:
+            true_positive += 1
+        elif actual_label == 1 and predict == 0:
+            false_negative += 1
+        elif actual_label == 0 and predict == 1:
+            false_positive += 1
+        elif actual_label == 0 and predict == 0:
+            true_negative += 1
+    print "total number of true positives", true_positive
+    print "total number of true negatives", true_negative
+    print "total number of false positives", false_positive
+    print "total number of false negatives", false_negative
+    print "precision %0.3f" % (float(true_positive)/(true_positive+false_positive))
+    print "recall %0.3f" % (float(true_positive)/(true_positive+false_negative))
+    print "===================="
+
+calculateTerms(labels_test, pred)
+
+predictions = [0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 1]
+true_labels = [0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 0]
+
+calculateTerms(true_labels, predictions)
